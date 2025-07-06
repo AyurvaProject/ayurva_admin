@@ -6,6 +6,8 @@ import DeliveryOrganization from "./pages/deliveryorganization/DeliveryOrganizat
 import DeliveryPerson from "./pages/deliveryperson/DeliveryPerson";
 import Order from "./pages/order/Orders";
 import Pharmacies from "./pages/pharmacies/Pharmacies";
+import ProductList from "./pages/products/ProductList";
+import SingleProduct from "./pages/products/SingleProduct";
 
 function App() {
   return (
@@ -21,6 +23,11 @@ function App() {
             <Route path="/deliveryPersons" element={<DeliveryPerson />} />
             <Route path="/orders" element={<Order />} />
             <Route path="/pharmacies" element={<Pharmacies />} />
+            <Route path="/products" element={<ProductList />} />
+            <Route
+              path="/products/singleProduct/:id"
+              element={<SingleProduct />}
+            />
           </Route>
         </Routes>
       </Router>

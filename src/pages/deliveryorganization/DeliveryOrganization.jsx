@@ -5,7 +5,7 @@ const DeliveryOrganization = () => {
   return (
     <div>
       <h1>Delivery Organization</h1>
-      <DataGridComponent />
+      <DataGridComponent/>
     </div>
   );
 };

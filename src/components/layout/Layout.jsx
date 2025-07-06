@@ -84,9 +84,9 @@ const Layout = () => {
       path: "/prescriptionReaders",
     },
     {
-      text: "Producst",
+      text: "Products",
       icon: <GiMedicines />,
-      path: "/medicines",
+      path: "/products",
     },
     {
       text: "Users",
