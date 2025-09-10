@@ -1,13 +1,7 @@
-import React from "react";
-import DataGridComponent from "../../components/datagrid/DataGrid";
+import PharmacyListSection from "../../section/pharmacy/PharmacyListSection";
 
 const Pharmacies = () => {
-  return (
-    <div>
-      <h1>Pharmacy List</h1>
-      <DataGridComponent />
-    </div>
-  );
+  return <PharmacyListSection />;
 };
 
 export default Pharmacies;

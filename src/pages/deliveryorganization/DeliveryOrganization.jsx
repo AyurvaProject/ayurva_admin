@@ -1,13 +1,7 @@
-import React from "react";
-import DataGridComponent from "../../components/datagrid/DataGrid";
+import DeliveryOrgSection from "../../section/deliveryOrg/DeliveryOrgListSection";
 
 const DeliveryOrganization = () => {
-  return (
-    <div>
-      <h1>Delivery Organization</h1>
-      <DataGridComponent />
-    </div>
-  );
+  return <DeliveryOrgSection />;
 };
 
 export default DeliveryOrganization;

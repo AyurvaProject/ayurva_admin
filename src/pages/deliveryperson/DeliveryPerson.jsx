@@ -1,13 +1,7 @@
-import React from "react";
-import DataGridComponent from "../../components/datagrid/DataGrid";
+import DeliveryPersonListSection from "../../section/deliveryPerson/DeliveryPersonListSection";
 
 const DeliveryPerson = () => {
-  return (
-    <div>
-      <h1>Delivery Person</h1>
-      <DataGridComponent />
-    </div>
-  );
+  return <DeliveryPersonListSection />;
 };
 
 export default DeliveryPerson;

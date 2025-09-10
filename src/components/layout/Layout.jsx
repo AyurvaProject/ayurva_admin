@@ -1,5 +1,5 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -17,190 +17,207 @@ import {
   Avatar,
   Button,
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import MenuIcon from "@mui/icons-material/Menu";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
-import { FaUserNurse } from "react-icons/fa";
-
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useTheme } from "@mui/material";
-
-// const logo = require("../../assets/img/logo.png").default;
-import logo from "../../assets/img/logo.png";
+import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import CoPresentIcon from "@mui/icons-material/CoPresent";
-import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
-import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import BusinessIcon from "@mui/icons-material/Business";
-import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
-import { GiMedicines } from "react-icons/gi";
-import { FaBookReader } from "react-icons/fa";
+import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
+import PeopleIcon from "@mui/icons-material/People";
+import LocalPharmacyIcon from "@mui/icons-material/LocalPharmacy";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import PersonIcon from "@mui/icons-material/Person";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import logo from "../../assets/img/logo.png";
+import { GetCurrentUser } from "../../apis/auth/Auth";
+import { useAuth } from "../../context/AuthContext";
 
-const drawerWidth = 300;
+const drawerWidth = 280;
 
 const Layout = () => {
+  const { logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
   const theme = useTheme();
+
+  const getUser = async () => {
+    const fetchedUser = await GetCurrentUser();
+    setUser(fetchedUser);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const menuItems = [
-    { text: "Dashboard", icon: <HomeIcon />, path: "/" },
+    { text: "Dashboard", icon: <SpaceDashboardIcon />, path: "/" },
+    { text: "Users", icon: <PeopleIcon />, path: "/users" },
+    { text: "Prescription Readers", icon: <PersonIcon />, path: "/prs" },
+    { text: "Pharmacists", icon: <LocalPharmacyIcon />, path: "/pharmacists" },
     {
-      text: "Delivery Organization",
-      icon: <BusinessIcon />,
-      path: "/deliveryOrganization",
+      text: "Delivery Organizations",
+      icon: <LocalShippingIcon />,
+      path: "/delivery-orgs",
     },
     {
       text: "Delivery Persons",
-      icon: <DirectionsBikeIcon />,
-      path: "/deliveryPersons",
+      icon: <PersonIcon />,
+      path: "/delivery-persons",
     },
-    {
-      text: "Orders",
-      icon: <InventoryIcon />,
-      path: "/orders",
-    },
-    {
-      text: "Pharmacies",
-      icon: <AddLocationAltIcon />,
-      path: "/pharmacies",
-    },
-    {
-      text: "Pharmacists",
-      icon: <FaUserNurse />,
-      path: "/pharmacists",
-    },
-    {
-      text: "Prescription Readers",
-      icon: <FaBookReader />,
-      path: "/prescriptionReaders",
-    },
-    {
-      text: "Producst",
-      icon: <GiMedicines />,
-      path: "/medicines",
-    },
-    {
-      text: "Users",
-      icon: <PeopleAltIcon />,
-      path: "/users",
-    },
+    { text: "Pharmacies", icon: <StorefrontIcon />, path: "/pharmacies" },
+    // { text: "Services", icon: <MedicalServicesIcon />, path: "/services" },
   ];
 
   const drawer = (
-    <div>
-      <Toolbar />
-      {/* <Divider /> */}
-      <List sx={{ paddingLeft: 5 }}>
+    <Box sx={{ p: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          mb: 2,
+        }}
+      >
+        <Avatar alt="logo" src={logo} sx={{ width: 80, height: 80, mb: 1 }} />
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 700,
+            background: "linear-gradient(45deg, #000000, #434343)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          Ayurva
+        </Typography>
+      </Box>
+      <Divider sx={{ mb: 2 }} />
+      <List>
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton onClick={() => navigate(item.path)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
+            <ListItemButton
+              onClick={() => navigate(item.path)}
+              sx={{
+                color: "black",
+                borderRadius: 2,
+                transition: "background-color 0.3s ease-in-out",
+                "&:hover": {
+                  backgroundColor: "#000000",
+                  color: "white",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
+              <ListItemText
+                primary={item.text}
+                primaryTypographyProps={{ fontWeight: 500 }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-    </div>
+    </Box>
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", minWidth: "100%" }}>
       <CssBaseline />
 
       {/* Sidebar Drawer */}
       <Drawer
-        // color="primary"
         variant="permanent"
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          // paddingLeft: 5,
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: "border-box",
-            bgcolor: theme.palette.primary.main,
-            color: theme.palette.text.layoutPrimary,
+            bgcolor: "#f9f9f9",
+            color: "black",
+            borderRight: "1px solid #e0e0e0",
           },
-          bgcolor: "black",
         }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: " center",
-          }}
-        >
-          <Avatar
-            alt="logo"
-            src={logo}
-            sx={{ width: "100px", height: "100px", mt: 2 }}
-          />
-          <Typography
-            variant="h5"
-            sx={{
-              mt: 1,
-              background: "linear-gradient(45deg, #004aad, #38b6ff)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontWeight: 650,
-            }}
-          >
-            Ayurva
-          </Typography>
-        </Box>
         {drawer}
       </Drawer>
 
       {/* Main Content */}
-      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          minWidth: "80%",
+          maxWidth: "100%",
+        }}
+      >
+        {/* Top AppBar */}
         <AppBar
           position="fixed"
-          //   color="primary"
+          elevation={0}
           sx={{
             width: `calc(100% - ${drawerWidth}px)`,
             ml: `${drawerWidth}px`,
-            bgcolor: `rgba(0, 0, 0, 0)`,
-            boxShadow: "none",
-            color: theme.palette.text.layoutSecondary,
+            bgcolor: "white",
+            borderBottom: "1px solid #e0e0e0",
           }}
         >
           <Toolbar>
             <IconButton
               color="inherit"
-              aria-label="open drawer"
               edge="start"
               sx={{ mr: 2, display: { sm: "none" } }}
               onClick={handleDrawerToggle}
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h5" noWrap component="div">
-              Dashboard
+
+            <Typography
+              variant="h6"
+              sx={{
+                background: "linear-gradient(45deg, #000000, #434343)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontWeight: 600,
+              }}
+            >
+              Admin Dashboard
             </Typography>
+
             <Button
+              variant="outlined"
+              color="inherit"
               endIcon={<LogoutIcon />}
-              sx={{ ml: "auto", textTransform: "none" }}
-              onClick={() => navigate("/login")}
+              sx={{
+                ml: "auto",
+                textTransform: "none",
+                borderColor: "#000",
+                "&:hover": { bgcolor: "#000", color: "#fff" },
+              }}
+              onClick={() => logout()}
             >
               Logout
             </Button>
           </Toolbar>
         </AppBar>
 
-        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-          <Outlet />
+        {/* Page Content */}
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            mt: 8,
+            minWidth: "100%",
+            bgcolor: "#fafafa",
+          }}
+        >
+          <Outlet style={{ maxWidth: "100%" }} />
         </Box>
       </Box>
     </Box>

@@ -47,7 +47,7 @@ const ThemeContextProvider = ({ children }) => {
                 text: {
                   primary: "#000", // White text for better contrast
                   secondary: "#b0b0b0", // Light gray text
-                  layoutPrimary: "#fff",
+                  layoutPrimary: "#747474ff",
                   layoutSecondary: "#b0b0b0",
                 },
               }),
