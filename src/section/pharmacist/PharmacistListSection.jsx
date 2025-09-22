@@ -51,13 +51,16 @@ const PharmacistListSection = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    fetchPharmacists();
+  }, []);
 
+  const fetchPharmacists = () => {
+    setLoading(true);
     GetAllPharmacists().then((res) => {
       setPharmacists(res);
       setLoading(false);
     });
-  }, []);
+  };
 
   const handleApproveStatusChange = async (pahramacistId, newStatus) => {
     setChanging(true);
@@ -65,6 +68,7 @@ const PharmacistListSection = () => {
       await ApprovePharmacst(pahramacistId, newStatus);
       showSnackbar("success", false, "Pharmacist status updated successfully");
       setChanging(false);
+      fetchPharmacists();
     } catch (error) {
       showSnackbar("error", false, "Failed to update pharmacist status");
     } finally {

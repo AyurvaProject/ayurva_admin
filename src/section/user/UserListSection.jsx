@@ -51,13 +51,16 @@ const UserListSection = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    fetchUsers();
+  }, []);
 
+  const fetchUsers = () => {
+    setLoading(true);
     GetAllUsers().then((res) => {
       setUsers(res);
       setLoading(false);
     });
-  }, []);
+  };
 
   const handleApproveStatusChange = async (userId, newStatus) => {
     setChanging(true);
@@ -65,6 +68,7 @@ const UserListSection = () => {
       await ChangeUserApproveStatus(userId, newStatus);
       showSnackbar("success", false, "User status updated successfully");
       setChanging(false);
+      fetchUsers();
     } catch (error) {
       showSnackbar("error", false, "Failed to update user status");
     } finally {

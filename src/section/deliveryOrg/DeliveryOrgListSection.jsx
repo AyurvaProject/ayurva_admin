@@ -50,13 +50,16 @@ const DeliveryOrgSection = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    fetchDeliveryOrgs();
+  }, []);
 
+  const fetchDeliveryOrgs = () => {
+    setLoading(true);
     GetAllDeliveryOrgs().then((res) => {
       setDeliveryOrgs(res);
       setLoading(false);
     });
-  }, []);
+  };
 
   const handleApproveStatusChange = async (orgId, newStatus) => {
     setChanging(true);
@@ -68,6 +71,7 @@ const DeliveryOrgSection = () => {
         "Delivery organization status updated successfully"
       );
       setChanging(false);
+      fetchDeliveryOrgs();
     } catch (error) {
       showSnackbar(
         "error",

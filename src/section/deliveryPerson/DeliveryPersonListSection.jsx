@@ -54,13 +54,16 @@ const DeliveryPersonListSection = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    fetcchDeliveryPersons();
+  }, []);
 
+  const fetcchDeliveryPersons = () => {
+    setLoading(true);
     GetAllDeliveryPersons().then((res) => {
       setPersons(res);
       setLoading(false);
     });
-  }, []);
+  };
 
   const handleApproveStatusChange = async (userId, newStatus) => {
     setChanging(true);
@@ -72,6 +75,7 @@ const DeliveryPersonListSection = () => {
         "Delivery person status updated successfully"
       );
       setChanging(false);
+      fetcchDeliveryPersons();
     } catch (error) {
       showSnackbar("error", false, "Failed to update delivery person status");
     } finally {

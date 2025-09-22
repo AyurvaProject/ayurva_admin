@@ -50,13 +50,16 @@ const PrListSection = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    fetchPrs();
+  }, []);
 
+  const fetchPrs = () => {
+    setLoading(true);
     GetAllPrs().then((res) => {
       setPrs(res);
       setLoading(false);
     });
-  }, []);
+  };
 
   const handleApproveStatusChange = async (prId, newStatus) => {
     setChanging(true);
@@ -68,6 +71,7 @@ const PrListSection = () => {
         "Prescription reader status updated successfully"
       );
       setChanging(false);
+      fetchPrs();
     } catch (error) {
       showSnackbar(
         "error",
